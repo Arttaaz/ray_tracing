@@ -6,15 +6,15 @@ pub struct Ray {
 }
 
 impl Ray {
-    pub fn origin(&self) -> Vec3 {
+    pub const fn origin(&self) -> Vec3 {
         self.a
     }
 
-    pub fn direction(&self) -> Vec3 {
+    pub const fn direction(&self) -> Vec3 {
         self.b
     }
 
-    pub fn point_at_direction(&self, t: f32) -> Vec3 {
+    pub const fn point_at_direction(&self, t: f32) -> Vec3 {
         self.a + self.b*t
     }
 

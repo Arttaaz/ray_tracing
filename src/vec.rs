@@ -22,11 +22,11 @@ macro_rules! vec3 {
 
 impl Vec3 {
 
-    pub fn dot(self, rhs: Self) -> f32 {
+    pub const fn dot(self, rhs: Self) -> f32 {
         self.x * rhs.x + self.y * rhs.y + self.z * rhs.z
     }
 
-    pub fn cross(self, rhs: Self) -> Self {
+    pub const fn cross(self, rhs: Self) -> Self {
         Vec3 {
             x: self.y*rhs.z - self.z*rhs.y,
             y: -self.x*rhs.z + self.z*rhs.x,
@@ -39,7 +39,7 @@ impl Vec3 {
     }
 
     pub fn length(&self) -> f32 {
-        (self.x.powi(2) + self.y.powi(2) + self.z.powi(2)).sqrt()
+        (self.x * self.x + self.y * self.y + self.z * self.z).sqrt()
     }
 
     pub fn squared_length(&self) -> f32 {
@@ -55,7 +55,7 @@ impl Vec3 {
         p
     }
 
-    pub fn reflect(&self, n: Vec3) -> Vec3 {
+    pub const fn reflect(&self, n: Vec3) -> Vec3 {
         *self - n * self.dot(n) * 2.0
     }
 
@@ -71,7 +71,7 @@ impl Vec3 {
     }
 }
 
-impl Add for Vec3 {
+impl const Add for Vec3 {
     type Output = Self;
 
     fn add(self, rhs: Self) -> Self {
@@ -91,7 +91,7 @@ impl AddAssign for Vec3 {
     }
 }
 
-impl Sub for Vec3 {
+impl const Sub for Vec3 {
     type Output = Self;
 
     fn sub(self, rhs: Self) -> Self {
@@ -111,7 +111,7 @@ impl SubAssign for Vec3 {
     }
 }
 
-impl Mul for Vec3 {
+impl const Mul for Vec3 {
     type Output = Self;
 
     fn mul(self, rhs: Self) -> Self {
@@ -131,7 +131,7 @@ impl MulAssign for Vec3 {
     }
 }
 
-impl Mul<f32> for Vec3 {
+impl const Mul<f32> for Vec3 {
     type Output = Self;
 
     fn mul(self, rhs: f32) -> Self {
@@ -151,7 +151,7 @@ impl MulAssign<f32> for Vec3 {
     }
 }
 
-impl Div for Vec3 {
+impl const Div for Vec3 {
     type Output = Self;
 
     fn div(self, rhs: Self) -> Self {
@@ -171,7 +171,7 @@ impl DivAssign for Vec3 {
     }
 }
 
-impl Div<f32> for Vec3 {
+impl const Div<f32> for Vec3 {
     type Output = Self;
 
     fn div(self, rhs: f32) -> Self {
@@ -191,7 +191,7 @@ impl DivAssign<f32> for Vec3 {
     }
 }
 
-impl Neg for Vec3 {
+impl const Neg for Vec3 {
     type Output = Self;
 
     fn neg(self) -> Self {

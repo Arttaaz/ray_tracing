@@ -1,3 +1,5 @@
+#![feature(const_fn_floating_point_arithmetic,
+           const_trait_impl)]
 extern crate rand;
 extern crate rayon;
 
@@ -97,7 +99,7 @@ fn main() {
            |rng, screen_pos| {
                let mut c = vec3!(0.0, 0.0, 0.0);
                let j = ny - 1 - screen_pos / nx;
-               let i = screen_pos % ny;
+               let i = screen_pos % nx;
                for _ in 0..ns {
                    let u = ((i as f32) + rng.gen::<f32>()) / (nx as f32);
                    let v = ((j as f32) + rng.gen::<f32>()) / (ny as f32);

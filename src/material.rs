@@ -43,7 +43,7 @@ pub struct Metal {
 }
 
 impl Metal {
-    pub fn new(albedo: Vec3, fuzz: f32) -> Metal {
+    pub const fn new(albedo: Vec3, fuzz: f32) -> Metal {
         Metal {
             albedo,
             fuzz: if fuzz > 1.0 { 1.0 } else if fuzz < 0.0 { 0.0 } else { fuzz },
