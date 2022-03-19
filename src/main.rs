@@ -10,6 +10,27 @@ use crate::rayon::iter::IntoParallelIterator;
 use crate::material::*;
 //use rand::random;
 
+union Fi {
+    f: f32,
+    i: u32,
+}
+
+pub const fn fsqrt(x: f32) -> f32 {
+	unsafe {
+        let mut y = Fi {f: 0.0};
+        y.f = x;
+        const threehalfs: f32 = 1.5;
+
+        let x2 = x * 0.5;
+        y.i  = 0x5f3759df - ( y.i >> 1 );               // what the fuck? 
+        y.f  = y.f * ( threehalfs - ( x2 * y.f * y.f ) );   // 1st iteration
+        y.f  = y.f * ( threehalfs - ( x2 * y.f * y.f ) );   // 2nd iteration
+        y.f  = y.f * ( threehalfs - ( x2 * y.f * y.f ) );   // 2nd iteration
+
+        x * y.f
+    }
+}
+
 mod camera;
 mod hitable;
 mod material;

@@ -22,10 +22,12 @@ macro_rules! vec3 {
 
 impl Vec3 {
 
+    #[inline]
     pub const fn dot(self, rhs: Self) -> f32 {
         self.x * rhs.x + self.y * rhs.y + self.z * rhs.z
     }
 
+    #[inline]
     pub const fn cross(self, rhs: Self) -> Self {
         Vec3 {
             x: self.y*rhs.z - self.z*rhs.y,
@@ -34,18 +36,22 @@ impl Vec3 {
         }
     }
 
-    pub fn unit_vector(&self) -> Vec3 {
+    #[inline]
+    pub const fn unit_vector(&self) -> Vec3 {
         *self / self.length()
     }
 
-    pub fn length(&self) -> f32 {
-        (self.x * self.x + self.y * self.y + self.z * self.z).sqrt()
+    #[inline]
+    pub const fn length(&self) -> f32 {
+        crate::fsqrt(self.x * self.x + self.y * self.y + self.z * self.z)
     }
 
-    pub fn squared_length(&self) -> f32 {
-        self.x.powi(2) + self.y.powi(2) + self.z.powi(2)
+    #[inline]
+    pub const fn squared_length(&self) -> f32 {
+        self.x * self.x + self.y * self.y + self.z * self.z
     }
 
+    #[inline]
     pub fn random_in_unit_sphere() -> Vec3 {
         let mut p;
         while {
@@ -55,16 +61,18 @@ impl Vec3 {
         p
     }
 
+    #[inline]
     pub const fn reflect(&self, n: Vec3) -> Vec3 {
         *self - n * self.dot(n) * 2.0
     }
 
-    pub fn refract(&self, n: Vec3, ni_over_nt: f32) -> Option<Vec3> {
+    #[inline]
+    pub const fn refract(&self, n: Vec3, ni_over_nt: f32) -> Option<Vec3> {
         let uv = self.unit_vector();
         let dt = uv.dot(n);
-        let delta = 1.0 - ni_over_nt.powi(2) * (1.0 - dt.powi(2));
+        let delta = 1.0 - (ni_over_nt * ni_over_nt) * (1.0 - (dt * dt));
         if delta > 0.0 {
-            Some((uv - n * dt) * ni_over_nt - n * delta.sqrt())
+            Some((uv - n * dt) * ni_over_nt - n * crate::fsqrt(delta))
         } else {
             None
         }

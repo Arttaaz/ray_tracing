@@ -107,7 +107,7 @@ impl Hitable for Sphere {
 
         let delta = b.powi(2) - 4.0 * a * c;
         if delta > 0.0 {
-            let mut r1 = (-b - delta.sqrt()) / (2.0 * a);
+            let mut r1 = (-b - crate::fsqrt(delta)) / (2.0 * a);
             if (tmin..tmax).contains(&r1) {
                 return Some(HitRecord {
                     t: r1,
@@ -116,7 +116,7 @@ impl Hitable for Sphere {
                     material: Box::new(self.material),
                 })
             }
-            r1 = (-b + delta.sqrt()) / (2.0 * a);
+            r1 = (-b + crate::fsqrt(delta)) / (2.0 * a);
             if (tmin..tmax).contains(&r1) {
                 return Some(HitRecord {
                     t: r1,
